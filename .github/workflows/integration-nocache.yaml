@@ -1,0 +1,24 @@
+name: CI No Cache
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/15 * * * *"
+
+permissions:
+  contents: read  #  to fetch code (actions/checkout)
+
+jobs:
+
+   lint:
+     name: Code linters
+     runs-on: ubuntu-latest
+     steps:
+       - uses: actions/checkout@v3
+       - uses: actions/setup-python@v4
+         with:
+           python-version: 3.9
+       - name: run code linters
+         run: |
+           pip install -r dev_requirements.txt
+           invoke linters
